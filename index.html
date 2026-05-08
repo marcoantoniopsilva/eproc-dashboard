@@ -60,17 +60,17 @@
     <div class="kpi-card jt">
       <div class="kpi-label">4V JT – Juízo Titular</div>
       <div class="kpi-value">1.575</div>
-      <div class="kpi-delta">Anterior: 1.593 &nbsp;|&nbsp; <span class="up">▼ 18</span></div>
+      <div class="kpi-delta">Anterior: 1.539 &nbsp;|&nbsp; <span class="up">▲ 36</span></div>
     </div>
     <div class="kpi-card js">
       <div class="kpi-label">4V JS – Juízo Substituto</div>
       <div class="kpi-value">1.270</div>
-      <div class="kpi-delta">Anterior: 1.351 &nbsp;|&nbsp; <span class="down">▼ 81</span></div>
+      <div class="kpi-delta">Anterior: 1.286 &nbsp;|&nbsp; <span class="down">▼ 16</span></div>
     </div>
     <div class="kpi-card total">
       <div class="kpi-label">Total Geral (JT + JS)</div>
       <div class="kpi-value">2.845</div>
-      <div class="kpi-delta">Anterior: 2.944 &nbsp;|&nbsp; <span class="down">▼ 99</span></div>
+      <div class="kpi-delta">Anterior: 2.825 &nbsp;|&nbsp; <span class="down">▲ 20</span></div>
       <div style="font-size: 0.7rem; color: #64748b; margin-top: 6px; padding-top: 6px; border-top: 1px solid #e2e8f0;">Máximo histórico: <span id="totalMaxVal">4.140</span> <span id="totalMaxDate" style="color: #475569; font-weight: 600;">02/03/2026</span></div>
     </div>
   </div>
@@ -90,23 +90,23 @@
   <div class="kpi-grid">
     <div class="kpi-card c120jt">
       <div class="kpi-label">Conclusos &gt;120 dias – JT</div>
-      <div class="kpi-value">49</div>
+      <div class="kpi-value">43</div>
       <div class="kpi-delta">Anterior: 49 &nbsp;|&nbsp; <span class="down">▼ 6</span></div>
     </div>
     <div class="kpi-card c120js">
       <div class="kpi-label">Conclusos &gt;120 dias – JS</div>
-      <div class="kpi-value">205</div>
-      <div class="kpi-delta">Anterior: 213 &nbsp;|&nbsp; <span class="down">▼ 6</span></div>
+      <div class="kpi-value">197</div>
+      <div class="kpi-delta">Anterior: 205 &nbsp;|&nbsp; <span class="down">▼ 8</span></div>
     </div>
     <div class="kpi-card c150jt">
       <div class="kpi-label">Conclusos &gt;150 dias – JT</div>
-      <div class="kpi-value">34</div>
-      <div class="kpi-delta">Anterior: 34 &nbsp;|&nbsp; <span class="up">▼ 6</span></div>
+      <div class="kpi-value">31</div>
+      <div class="kpi-delta">Anterior: 34 &nbsp;|&nbsp; <span class="up">▼ 3</span></div>
     </div>
     <div class="kpi-card c150js">
       <div class="kpi-label">Conclusos &gt;150 dias – JS</div>
-      <div class="kpi-value">181</div>
-      <div class="kpi-delta">Anterior: 181 &nbsp;|&nbsp; ▼ 6</div>
+      <div class="kpi-value">173</div>
+      <div class="kpi-delta">Anterior: 181 &nbsp;|&nbsp; ▼ 8</div>
     </div>
   </div>
   <div class="chart-row" style="margin-top:14px;">
@@ -126,12 +126,12 @@
     <div class="kpi-card tajt">
       <div class="kpi-label">Tramitação Ajustada – JT</div>
       <div class="kpi-value">7.886</div>
-      <div class="kpi-delta">Anterior: 7.884 &nbsp;|&nbsp; <span class="down">▼ 180</span></div>
+      <div class="kpi-delta">Anterior: 7.912 &nbsp;|&nbsp; <span class="down">▼ 26</span></div>
     </div>
     <div class="kpi-card tajs">
       <div class="kpi-label">Tramitação Ajustada – JS</div>
       <div class="kpi-value">8.407</div>
-      <div class="kpi-delta">Anterior: 8.401 &nbsp;|&nbsp; <span class="down">▼ 188</span></div>
+      <div class="kpi-delta">Anterior: 8.433 &nbsp;|&nbsp; <span class="down">▼ 26</span></div>
     </div>
   </div>
   <div class="chart-row" style="margin-top:14px;">
@@ -190,7 +190,7 @@
   </div>
 
 </div>
-<footer>4ª Vara de Execução Fiscal e JEF Adjunto – SJMG/TRF6 &nbsp;|&nbsp; Dados extraídos do eproc em 08/05/2026</footer>
+<footer>4ª Vara de Execução Fiscal e JEF Adjunto – SJMG/TRF6 &nbsp;|&nbsp; Dados extraídos do eproc em 05/05/2026</footer>
 
 <script>
 // ══ HISTÓRICO PRINCIPAL ═══════════════════════════════════════
@@ -228,7 +228,7 @@ document.getElementById('totalMaxDate').textContent = datesMain[totalMaxIdx];
 
 // ══ TOTAL TRAMITAÇÃO AJUSTADA ════════════════════════════════
 var histTramitTotal = [];
-for (var i ▼ 6; i < histTramitJT.length; i++) {
+for (var i = 0; i < histTramitJT.length; i++) {
   histTramitTotal.push(histTramitJT[i] + histTramitJS[i]);
 }
 var tramitMaxVal = Math.max.apply(null, histTramitTotal);
