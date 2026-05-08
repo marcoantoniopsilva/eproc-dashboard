@@ -3,190 +3,300 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Conclusos – 4ª Vara EF e JEF Adjunto</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<title>Dashboard Conclusos â 4Âª Vara</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #222; }
-  header { background: #1a2e4a; color: white; padding: 18px 32px; display: flex; align-items: center; gap: 12px; }
-  header h1 { font-size: 1.3rem; font-weight: 600; }
-  .updated { font-size: 0.78rem; color: #aac; margin-left: auto; }
-  .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
-  .section-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; color: #555; text-transform: uppercase; margin-bottom: 14px; border-left: 3px solid #1a2e4a; padding-left: 8px; }
-  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-  .card { background: white; border-radius: 8px; padding: 20px 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-left: 4px solid #1a2e4a; }
-  .card.red { border-left-color: #b52a2a; }
-  .card.full { grid-column: span 2; }
-  .card-label { font-size: 0.78rem; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
-  .card-value { font-size: 2.2rem; font-weight: 700; color: #1a2e4a; line-height: 1; }
-  .card.red .card-value { color: #b52a2a; }
-  .card-sub { font-size: 0.82rem; color: #666; margin-top: 6px; }
-  .arrow-up { color: #c0392b; font-weight: 600; }
-  .arrow-down { color: #27ae60; font-weight: 600; }
-  .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-  .chart-box { background: white; border-radius: 8px; padding: 18px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
-  .chart-box h3 { font-size: 0.8rem; font-weight: 600; color: #444; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .section { margin-bottom: 28px; }
-  @media (max-width: 650px) { .cards, .charts { grid-template-columns: 1fr; } .card.full { grid-column: span 1; } }
+  header { background: #1a3a5c; color: #fff; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; }
+  header h1 { font-size: 1.2rem; font-weight: 600; }
+  header span { font-size: 0.82rem; opacity: 0.7; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 20px 16px; }
+  .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin: 24px 0 10px; border-left: 3px solid #94a3b8; padding-left: 8px; }
+  .kpi-grid { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 4px; }
+  .kpi-card { flex: 1 1 180px; background: #fff; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 6px rgba(0,0,0,0.07); border-left: 5px solid #cbd5e1; }
+  .kpi-card.jt     { border-left-color: #1d4ed8; }
+  .kpi-card.js     { border-left-color: #991b1b; }
+  .kpi-card.total  { border-left-color: #334155; flex: 1 1 100%; }
+  .kpi-card.c120jt { border-left-color: #0369a1; }
+  .kpi-card.c120js { border-left-color: #b45309; }
+  .kpi-card.c150jt { border-left-color: #0f766e; }
+  .kpi-card.c150js { border-left-color: #7c3aed; }
+  .kpi-card.tajt   { border-left-color: #475569; }
+  .kpi-card.tajs   { border-left-color: #64748b; }
+  .kpi-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: #6b7280; margin-bottom: 4px; }
+  .kpi-value { font-size: 2rem; font-weight: 700; line-height: 1; color: #1e293b; }
+  .kpi-card.jt     .kpi-value { color: #1d4ed8; }
+  .kpi-card.js     .kpi-value { color: #991b1b; }
+  .kpi-card.total  .kpi-value { color: #334155; }
+  .kpi-card.c120jt .kpi-value { color: #0369a1; }
+  .kpi-card.c120js .kpi-value { color: #b45309; }
+  .kpi-card.c150jt .kpi-value { color: #0f766e; }
+  .kpi-card.c150js .kpi-value { color: #7c3aed; }
+  .kpi-card.tajt   .kpi-value { color: #475569; }
+  .kpi-card.tajs   .kpi-value { color: #64748b; }
+  .kpi-delta { font-size: 0.78rem; color: #9ca3af; margin-top: 4px; }
+  .up   { color: #d97706; }
+  .down { color: #16a34a; }
+  .chart-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 4px; }
+  .chart-card { background: #fff; border-radius: 10px; padding: 18px; box-shadow: 0 1px 6px rgba(0,0,0,0.07); flex: 1 1 300px; }
+  .chart-card h3 { font-size: 0.82rem; font-weight: 600; color: #475569; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
+  .chart-wrap    { position: relative; height: 210px; }
+  .chart-wrap-sm { position: relative; height: 180px; }
+  .chart-wrap-xs { position: relative; height: 160px; }
+  footer { text-align: center; font-size: 0.72rem; color: #aaa; padding: 24px 0 16px; }
 </style>
 </head>
 <body>
 <header>
-  <span style="font-size:1.5rem">📊</span>
-  <h1>Conclusos – 4ª Vara de Execução Fiscal e JEF Adjunto</h1>
-  <span class="updated">Atualizado em 07/05/2026</span>
+  <h1>ð Conclusos â 4Âª Vara de ExecuÃ§Ã£o Fiscal e JEF Adjunto</h1>
+  <span>Atualizado em 07/05/202626</span>
 </header>
 <div class="container">
 
-  <div class="section">
-    <div class="section-title">Conclusos Totais</div>
-    <div class="cards">
-      <div class="card">
-        <div class="card-label">4V JT – Juízo Titular</div>
-        <div class="card-value">1.539</div>
-        <div class="card-sub">Anterior: 1.536 | <span class="arrow-up">▲ 3</span></div>
-      </div>
-      <div class="card red">
-        <div class="card-label">4V JS – Juízo Substituto</div>
-        <div class="card-value">1.286</div>
-        <div class="card-sub">Anterior: 1.352 | <span class="arrow-down">▼ 66</span></div>
-      </div>
-      <div class="card full">
-        <div class="card-label">Total Geral (JT + JS)</div>
-        <div class="card-value">2.825</div>
-        <div class="card-sub">Anterior: 2.888 | <span class="arrow-down">▼ 63</span><br>Máximo histórico: 4.140 <strong>02/03</strong></div>
-      </div>
+  <!-- SEÃÃO 1: CONCLUSOS TOTAIS -->
+  <div class="section-title">Conclusos Totais</div>
+  <div class="kpi-grid">
+    <div class="kpi-card jt">
+      <div class="kpi-label">4V JT â JuÃ­zo Titular</div>
+      <div class="kpi-value">1.536</div>
+      <div class="kpi-delta">Anterior: 1.496 &nbsp;|&nbsp; <span class="up">â² 40</span></div>
+    </div>
+    <div class="kpi-card js">
+      <div class="kpi-label">4V JS â JuÃ­zo Substituto</div>
+      <div class="kpi-value">1.352</div>
+      <div class="kpi-delta">Anterior: 1.423 &nbsp;|&nbsp; <span class="down">â¼ 71</span></div>
+    </div>
+    <div class="kpi-card total">
+      <div class="kpi-label">Total Geral (JT + JS)</div>
+      <div class="kpi-value">2.888</div>
+      <div class="kpi-delta">Anterior: 2.919 &nbsp;|&nbsp; <span class="down">â¼ 31</span></div>
+      <div style="font-size: 0.7rem; color: #64748b; margin-top: 6px; padding-top: 6px; border-top: 1px solid #e2e8f0;">MÃ¡ximo histÃ³rico: <span id="totalMaxVal">4.140</span> <span id="totalMaxDate" style="color: #475569; font-weight: 600;">02/03/2026</span></div>
+    </div>
+  </div>
+  <div class="chart-row" style="margin-top:14px;">
+    <div class="chart-card" style="flex: 2 1 480px;">
+      <h3>ð HistÃ³rico JT e JS</h3>
+      <div class="chart-wrap"><canvas id="chartHistorico"></canvas></div>
+    </div>
+    <div class="chart-card" style="flex: 1 1 260px;">
+      <h3>ð HistÃ³rico Total Geral</h3>
+      <div class="chart-wrap"><canvas id="chartTotal"></canvas></div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">Histórico de Conclusos</div>
-    <div class="charts">
-      <div class="chart-box">
-        <h3>📈 Histórico JT e JS</h3>
-        <canvas id="chartMain" height="200"></canvas>
-      </div>
-      <div class="chart-box">
-        <h3>⚠️ Conclusos &gt; 120 e &gt; 150 dias</h3>
-        <canvas id="chartIdade" height="200"></canvas>
-      </div>
+  <!-- SEÃÃO 2: PROCESSOS ANTIGOS -->
+  <div class="section-title">Processos Antigos â Conclusos hÃ¡ mais de 120 e 150 dias</div>
+  <div class="kpi-grid">
+    <div class="kpi-card c120jt">
+      <div class="kpi-label">Conclusos &gt;120 dias â JT</div>
+      <div class="kpi-value">91</div>
+      <div class="kpi-delta">Anterior: 113 &nbsp;|&nbsp; <span class="down">â¼ 22</span></div>
     </div>
-    <div class="charts">
-      <div class="chart-box">
-        <h3>🔄 Tramitação Ajustada</h3>
-        <canvas id="chartTram" height="200"></canvas>
-      </div>
-      <div class="chart-box">
-        <h3>📊 Conclusos por Faixa (atual)</h3>
-        <canvas id="chartFaixa" height="200"></canvas>
-      </div>
+    <div class="kpi-card c120js">
+      <div class="kpi-label">Conclusos &gt;120 dias â JS</div>
+      <div class="kpi-value">213</div>
+      <div class="kpi-delta">Anterior: 237 &nbsp;|&nbsp; <span class="down">â¼ 24</span></div>
+    </div>
+    <div class="kpi-card c150jt">
+      <div class="kpi-label">Conclusos &gt;150 dias â JT</div>
+      <div class="kpi-value">68</div>
+      <div class="kpi-delta">Anterior: 65 &nbsp;|&nbsp; <span class="up">â² 3</span></div>
+    </div>
+    <div class="kpi-card c150js">
+      <div class="kpi-label">Conclusos &gt;150 dias â JS</div>
+      <div class="kpi-value">185</div>
+      <div class="kpi-delta">Anterior: 185 &nbsp;|&nbsp; = sem variaÃ§Ã£o</div>
+    </div>
+  </div>
+  <div class="chart-row" style="margin-top:14px;">
+    <div class="chart-card">
+      <h3>ð HistÃ³rico â Conclusos &gt;120 dias (JT e JS)</h3>
+      <div class="chart-wrap-xs"><canvas id="chart120dias"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>ð HistÃ³rico â Conclusos &gt;150 dias (JT e JS)</h3>
+      <div class="chart-wrap-xs"><canvas id="chart150dias"></canvas></div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">Indicadores Detalhados</div>
-    <div class="cards">
-      <div class="card">
-        <div class="card-label">&gt;120 dias JT</div>
-        <div class="card-value">49</div>
-      </div>
-      <div class="card red">
-        <div class="card-label">&gt;120 dias JS</div>
-        <div class="card-value">205</div>
-      </div>
-      <div class="card">
-        <div class="card-label">&gt;150 dias JT</div>
-        <div class="card-value">34</div>
-      </div>
-      <div class="card red">
-        <div class="card-label">&gt;150 dias JS</div>
-        <div class="card-value">181</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Tramitação Ajustada JT</div>
-        <div class="card-value">7.912</div>
-      </div>
-      <div class="card red">
-        <div class="card-label">Tramitação Ajustada JS</div>
-        <div class="card-value">8.433</div>
-      </div>
-      <div class="card full">
-        <div class="card-label">Tramitação Ajustada Total</div>
-        <div class="card-value">16.345</div>
-      </div>
+  <!-- SEÃÃO 3: TRAMITAÃÃO AJUSTADA -->
+  <div class="section-title">TramitaÃ§Ã£o Ajustada Total</div>
+  <div class="kpi-grid">
+    <div class="kpi-card tajt">
+      <div class="kpi-label">TramitaÃ§Ã£o Ajustada â JT</div>
+      <div class="kpi-value">7.882</div>
+      <div class="kpi-delta">Anterior: 7.893 &nbsp;|&nbsp; <span class="down">â¼ 11</span></div>
+    </div>
+    <div class="kpi-card tajs">
+      <div class="kpi-label">TramitaÃ§Ã£o Ajustada â JS</div>
+      <div class="kpi-value">8.395</div>
+      <div class="kpi-delta">Anterior: 8.470 &nbsp;|&nbsp; <span class="down">â¼ 75</span></div>
+    </div>
+  </div>
+  <div class="chart-row" style="margin-top:14px;">
+    <div class="chart-card" style="flex: 2 1 480px;">
+      <h3>ð HistÃ³rico â TramitaÃ§Ã£o Ajustada (JT e JS)</h3>
+      <div class="chart-wrap-xs"><canvas id="chartTramit"></canvas></div>
+    </div>
+  </div>
+
+  <!-- SEÃÃO 3b: TOTAL TRAMITAÃÃO AJUSTADA -->
+  <div class="section-title" style="margin-top: 24px;">Total de TramitaÃ§Ã£o Ajustada (JT + JS)</div>
+  <div class="kpi-grid">
+    <div class="kpi-card" style="border-left-color: #059669; flex: 1 1 200px;">
+      <div class="kpi-label">Total Atual</div>
+      <div class="kpi-value" style="color: #059669;" id="tramitTotal">16.961</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: #2563eb; flex: 1 1 200px;">
+      <div class="kpi-label">MÃ¡ximo HistÃ³rico</div>
+      <div class="kpi-value" style="color: #2563eb;" id="tramitMax">17.194</div>
+      <div class="kpi-delta" style="font-size: 0.7rem; color: #6b7280; margin-top: 2px;" id="tramitMaxDate">20/02/2026</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: #dc2626; flex: 1 1 200px;">
+      <div class="kpi-label">MÃ­nimo HistÃ³rico</div>
+      <div class="kpi-value" style="color: #dc2626;" id="tramitMin">16.961</div>
+      <div class="kpi-delta" style="font-size: 0.7rem; color: #6b7280; margin-top: 2px;" id="tramitMinDate">24/03/2026</div>
+    </div>
+  </div>
+  <div class="chart-row" style="margin-top:14px;">
+    <div class="chart-card" style="flex: 1 1 480px;">
+      <h3>ð SÃ©rie HistÃ³rica â Total de TramitaÃ§Ã£o Ajustada</h3>
+      <div class="chart-wrap-xs"><canvas id="chartTramitTotal"></canvas></div>
+    </div>
+  </div>
+
+  <!-- SEÃÃO 4: BREAKDOWNS -->
+  <div class="section-title">ComposiÃ§Ã£o dos Conclusos â 26/03/2026 (Ãºltima amostra disponÃ­vel)</div>
+  <div class="chart-row">
+    <div class="chart-card">
+      <h3>âï¸ JT â Por Classe Processual</h3>
+      <div class="chart-wrap-sm"><canvas id="chartJTClasse"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>â±ï¸ JT â Por Faixa de Tempo</h3>
+      <div class="chart-wrap-sm"><canvas id="chartJTDias"></canvas></div>
+    </div>
+  </div>
+  <div class="chart-row">
+    <div class="chart-card">
+      <h3>âï¸ JS â Por Classe Processual</h3>
+      <div class="chart-wrap-sm"><canvas id="chartJSClasse"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>â±ï¸ JS â Por Faixa de Tempo</h3>
+      <div class="chart-wrap-sm"><canvas id="chartJSDias"></canvas></div>
     </div>
   </div>
 
 </div>
+<footer>4Âª Vara de ExecuÃ§Ã£o Fiscal e JEF Adjunto â SJMG/TRF6 &nbsp;|&nbsp; Dados extraÃ­dos do eproc em 05/05/2026</footer>
+
 <script>
-var datesMain = ["20/02", "21/02", "23/02", "26/02", "02/03", "04/03", "06/03", "10/03", "11/03", "12/03", "13/03", "16/03", "17/03", "19/03", "20/03", "24/03", "25/03", "26/03", "31/03", "08/04", "22/04", "23/04", "24/04", "28/04", "29/04", "30/04", "05/05", "07/05"];
-var datesNew  = ["11/03", "12/03", "13/03", "16/03", "17/03", "19/03", "20/03", "24/03", "25/03", "26/03", "31/03", "08/04", "22/04", "23/04", "24/04", "28/04", "29/04", "30/04", "05/05", "07/05"];
-var histJT    = [1748, 1754, 1697, 1753, 1793, 1775, 1744, 1766, 1786, 1756, 1728, 1709, 1696, 1656, 1597, 1507, 1444, 1450, 1470, 1462, 1461, 1462, 1419, 1364, 1502, 1496, 1536, 1539];
-var histJS    = [2252, 2238, 2185, 2177, 2347, 2265, 2209, 2108, 2081, 2067, 2039, 2009, 1997, 1997, 1902, 1868, 1878, 1832, 1914, 1523, 1438, 1384, 1311, 1194, 1467, 1423, 1352, 1286];
+// ââ HISTÃRICO PRINCIPAL âââââââââââââââââââââââââââââââââââââââ
+var datesMain = ["20/02","21/02","23/02","26/02","02/03","04/03","06/03","10/03","11/03","12/03","13/03","16/03","17/03","19/03","20/03","24/03","25/03","26/03","31/03","08/04","22/04","23/04","24/04","28/04","29/04","30/04","05/05", "07/05"];
+var histJT = [1748, 1754, 1697, 1753, 1793, 1775, 1744, 1766, 1786, 1756, 1728, 1709, 1696, 1656, 1597, 1507, 1444, 1450, 1470, 1462, 1461, 1462, 1419, 1364, 1502, 1496, 1536, 1539];
+var histJS = [2252, 2238, 2185, 2177, 2347, 2265, 2209, 2108, 2081, 2067, 2039, 2009, 1997, 1997, 1902, 1868, 1878, 1832, 1914, 1523, 1438, 1384, 1311, 1194, 1467, 1423, 1352, 1286];
+var histTotal = [4000, 3992, 3882, 3930, 4140, 4040, 3953, 3874, 3867, 3823, 3767, 3718, 3693, 3653, 3499, 3375, 3322, 3282, 3384, 2985, 2899, 2846, 2730, 2558, 2969, 2919, 2888];
+
+// ââ NOVOS INDICADORES (a partir de 11/03) âââââââââââââââââââââ
+var datesNew = ["11/03","12/03","13/03","16/03","17/03","19/03","20/03","24/03","25/03","26/03","31/03","08/04","22/04","23/04","24/04","28/04","29/04","30/04","05/05", "07/05"];
 var hist120JT = [106, 116, 111, 132, 342, 351, 349, 302, 291, 273, 244, 233, 255, 229, 203, 150, 129, 113, 91, 49];
 var hist120JS = [252, 249, 229, 233, 420, 422, 370, 346, 355, 304, 298, 310, 274, 254, 251, 242, 242, 237, 213, 205];
-var hist150JT = [43, 44, 39, 40, 118, 109, 115, 124, 112, 91, 55, 52, 94, 97, 82, 94, 78, 65, 68, 34];
+var hist150JT = [43,  44,  39,  40,  118, 109, 115, 124, 112, 91,  55,  52,  94,  97,  82,  94,  78,  65,  68, 34];
 var hist150JS = [119, 113, 110, 115, 189, 185, 183, 189, 192, 192, 189, 192, 186, 189, 186, 190, 190, 185, 185, 181];
-var histTramJT = [8255, 8254, 8249, 8248, 8244, 8233, 8211, 8152, 8148, 8103, 8033, 7986, 7995, 7970, 7990, 7981, 7901, 7893, 7882, 7912];
-var histTramJS = [8939, 8918, 8921, 8917, 8903, 8877, 8861, 8809, 8813, 8751, 8703, 8642, 8619, 8609, 8623, 8604, 8503, 8470, 8395, 8433];
+var histTramitJT = [8255, 8254, 8249, 8248, 8244, 8233, 8211, 8152, 8148, 8103, 8033, 7986, 7995, 7970, 7990, 7981, 7901, 7893, 7882];
+var histTramitJS = [8939, 8918, 8921, 8917, 8903, 8877, 8861, 8809, 8813, 8751, 8703, 8642, 8619, 8609, 8623, 8604, 8503, 8470, 8395];
 
-var opts = {
-  responsive: true,
-  plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
-  scales: {
-    x: { ticks: { font: { size: 10 }, maxRotation: 45 } },
-    y: { ticks: { font: { size: 10 } } }
-  }
-};
+// ââ BREAKDOWN JT â 26/03/2026 ââââââââââââââââââââââââââââââââ
+var jtClasseLabels = ["ExecuÃ§Ã£o Fiscal","ExecuÃ§Ã£o TÃ­t. Extrajudicial","Embargos Exec. Fiscal","Cumprimento SentenÃ§a","JEF ExecuÃ§Ã£o","Outros"];
+var jtClasseData   = [56, 37, 3, 2, 1, 1];
+var jtDiasLabels   = ["0-30 dias","31-60 dias","61-90 dias","91-180 dias","181+ dias"];
+var jtDiasData     = [42, 21, 13, 23, 1];
 
-new Chart(document.getElementById('chartMain'), {
-  type: 'line',
-  data: {
-    labels: datesMain,
-    datasets: [
-      { label: 'JT', data: histJT, borderColor: '#1a2e4a', backgroundColor: 'rgba(26,46,74,0.08)', tension: 0.3, pointRadius: 2 },
-      { label: 'JS', data: histJS, borderColor: '#b52a2a', backgroundColor: 'rgba(181,42,42,0.08)', tension: 0.3, pointRadius: 2 }
-    ]
-  },
-  options: opts
+// ââ BREAKDOWN JS â 26/03/2026 ââââââââââââââââââââââââââââââââ
+var jsClasseLabels = ["ExecuÃ§Ã£o Fiscal","ExecuÃ§Ã£o TÃ­t. Extrajudicial","Procedimento Comun","Embargos Ã  ExecuÃ§Ã£o","Cumprimento SentenÃ§a","Outros"];
+var jsClasseData   = [63, 30, 2, 2, 1, 2];
+var jsDiasLabels   = ["0-30 dias","31-60 dias","61-90 dias","91-180 dias","181+ dias"];
+var jsDiasData     = [42, 28, 9, 19, 2];
+
+// ââ TOTAL CONCLUSOS GERAL ââââââââââââââââââââââââââââââââââââ
+var totalMaxVal = Math.max.apply(null, histTotal);
+var totalMaxIdx = histTotal.indexOf(totalMaxVal);
+document.getElementById('totalMaxVal').textContent = (totalMaxVal/1000).toFixed(3).replace('.',',');
+document.getElementById('totalMaxDate').textContent = datesMain[totalMaxIdx];
+
+// ââ TOTAL TRAMITAÃÃO AJUSTADA ââââââââââââââââââââââââââââââââ
+var histTramitTotal = [];
+for (var i = 0; i < histTramitJT.length; i++) {
+  histTramitTotal.push(histTramitJT[i] + histTramitJS[i]);
+}
+var tramitMaxVal = Math.max.apply(null, histTramitTotal);
+var tramitMinVal = Math.min.apply(null, histTramitTotal);
+var tramitMaxIdx = histTramitTotal.indexOf(tramitMaxVal);
+var tramitMinIdx = histTramitTotal.indexOf(tramitMinVal);
+document.getElementById('tramitTotal').textContent = (histTramitTotal[histTramitTotal.length-1]/1000).toFixed(3).replace('.',',');
+document.getElementById('tramitMax').textContent = (tramitMaxVal/1000).toFixed(3).replace('.',',');
+document.getElementById('tramitMaxDate').textContent = datesNew[tramitMaxIdx];
+document.getElementById('tramitMin').textContent = (tramitMinVal/1000).toFixed(3).replace('.',',');
+document.getElementById('tramitMinDate').textContent = datesNew[tramitMinIdx];
+
+// ââ PALETAS ââââââââââââââââââââââââââââââââââââââââââââââââââ
+var palBlue = ['#1d4ed8','#2563eb','#3b82f6','#60a5fa','#93c5fd','#bfdbfe','#dbeafe','#eff6ff','#1e40af','#1e3a8a'];
+var palRed  = ['#991b1b','#b91c1c','#dc2626','#ef4444','#f87171','#fca5a5','#fecaca','#fee2e2','#7f1d1d'];
+var palDias = ['#22c55e','#84cc16','#eab308','#f97316','#ef4444'];
+var lo  = { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'top'}}, scales:{y:{beginAtZero:false}} };
+var loz = { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'top'}}, scales:{y:{beginAtZero:true}} };
+
+new Chart(document.getElementById('chartHistorico'), {
+  type:'line', data:{ labels:datesMain, datasets:[
+    {label:'JT (Titular)',    data:histJT, borderColor:'#1d4ed8', backgroundColor:'rgba(29,78,216,0.07)',  tension:0.3, pointRadius:4, fill:true},
+    {label:'JS (Substituto)', data:histJS, borderColor:'#991b1b', backgroundColor:'rgba(153,27,27,0.07)', tension:0.3, pointRadius:4, fill:true}
+  ]}, options:lo
 });
-
-new Chart(document.getElementById('chartIdade'), {
-  type: 'bar',
-  data: {
-    labels: datesNew,
-    datasets: [
-      { label: '>120d JT', data: hist120JT, backgroundColor: 'rgba(26,46,74,0.75)' },
-      { label: '>120d JS', data: hist120JS, backgroundColor: 'rgba(181,42,42,0.75)' },
-      { label: '>150d JT', data: hist150JT, backgroundColor: 'rgba(26,46,74,0.4)' },
-      { label: '>150d JS', data: hist150JS, backgroundColor: 'rgba(181,42,42,0.4)' }
-    ]
-  },
-  options: opts
+new Chart(document.getElementById('chartTotal'), {
+  type:'line', data:{ labels:datesMain, datasets:[
+    {label:'Total Geral', data:histTotal, borderColor:'#334155', backgroundColor:'rgba(51,65,85,0.07)', tension:0.3, pointRadius:4, fill:true}
+  ]}, options:lo
 });
-
-new Chart(document.getElementById('chartTram'), {
-  type: 'line',
-  data: {
-    labels: datesNew,
-    datasets: [
-      { label: 'Tram. JT', data: histTramJT, borderColor: '#1a2e4a', tension: 0.3, pointRadius: 2 },
-      { label: 'Tram. JS', data: histTramJS, borderColor: '#b52a2a', tension: 0.3, pointRadius: 2 }
-    ]
-  },
-  options: opts
+new Chart(document.getElementById('chart120dias'), {
+  type:'line', data:{ labels:datesNew, datasets:[
+    {label:'JT >120d', data:hist120JT, borderColor:'#0369a1', backgroundColor:'rgba(3,105,161,0.08)',  tension:0.3, pointRadius:5, fill:true},
+    {label:'JS >120d', data:hist120JS, borderColor:'#b45309', backgroundColor:'rgba(180,83,9,0.08)',   tension:0.3, pointRadius:5, fill:true}
+  ]}, options:loz
 });
-
-new Chart(document.getElementById('chartFaixa'), {
-  type: 'bar',
-  data: {
-    labels: ['JT', 'JS'],
-    datasets: [
-      { label: '>120 dias', data: [49, 205], backgroundColor: ['rgba(26,46,74,0.8)', 'rgba(181,42,42,0.8)'] },
-      { label: '>150 dias', data: [34, 181], backgroundColor: ['rgba(26,46,74,0.4)', 'rgba(181,42,42,0.4)'] }
-    ]
-  },
-  options: opts
+new Chart(document.getElementById('chart150dias'), {
+  type:'line', data:{ labels:datesNew, datasets:[
+    {label:'JT >150d', data:hist150JT, borderColor:'#0f766e', backgroundColor:'rgba(15,118,110,0.08)', tension:0.3, pointRadius:5, fill:true},
+    {label:'JS >150d', data:hist150JS, borderColor:'#7c3aed', backgroundColor:'rgba(124,58,237,0.08)', tension:0.3, pointRadius:5, fill:true}
+  ]}, options:loz
+});
+new Chart(document.getElementById('chartTramit'), {
+  type:'line', data:{ labels:datesNew, datasets:[
+    {label:'Tramit. Ajust. JT', data:histTramitJT, borderColor:'#475569', backgroundColor:'rgba(71,85,105,0.08)',   tension:0.3, pointRadius:5, fill:true},
+    {label:'Tramit. Ajust. JS', data:histTramitJS, borderColor:'#64748b', backgroundColor:'rgba(100,116,139,0.08)', tension:0.3, pointRadius:5, fill:true}
+  ]}, options:lo
+});
+new Chart(document.getElementById('chartTramitTotal'), {
+  type:'line', data:{ labels:datesNew, datasets:[
+    {label:'Total (JT + JS)', data:histTramitTotal, borderColor:'#059669', backgroundColor:'rgba(5,150,105,0.1)', tension:0.3, pointRadius:5, fill:true}
+  ]}, options:lo
+});
+new Chart(document.getElementById('chartJTClasse'), {
+  type:'bar', data:{labels:jtClasseLabels, datasets:[{label:'Processos', data:jtClasseData, backgroundColor:palBlue}]},
+  options:{responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{legend:{display:false}}, scales:{x:{beginAtZero:true}}}
+});
+new Chart(document.getElementById('chartJTDias'), {
+  type:'doughnut', data:{labels:jtDiasLabels, datasets:[{data:jtDiasData, backgroundColor:palDias}]},
+  options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'right'}}}
+});
+new Chart(document.getElementById('chartJSClasse'), {
+  type:'bar', data:{labels:jsClasseLabels, datasets:[{label:'Processos', data:jsClasseData, backgroundColor:palRed}]},
+  options:{responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{legend:{display:false}}, scales:{x:{beginAtZero:true}}}
+});
+new Chart(document.getElementById('chartJSDias'), {
+  type:'doughnut', data:{labels:jsDiasLabels, datasets:[{data:jsDiasData, backgroundColor:palDias}]},
+  options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'right'}}}
 });
 </script>
 </body>
