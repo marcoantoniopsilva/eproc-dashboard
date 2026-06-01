@@ -170,7 +170,7 @@
   <div class="section-title">Meta 2 CNJ – Julgar Processos mais Antigos</div>
   <div class="kpi-grid">
     <div class="kpi-card" style="border-left-color:#1a3a5c;">
-      <div class="kpi-label">Submeta 2 – Proc. + antigos (dist. 2011)</div>
+      <div class="kpi-label">Submeta 2 – Proc. + antigos (2011)</div>
       <div class="kpi-value">50%</div>
       <div class="kpi-delta">Pendentes: 2 &nbsp;|&nbsp; Ant. (19/05): 50% = sem variação</div>
     </div>
@@ -190,30 +190,111 @@
       <h3>📈 Evolução do Cumprimento – Meta 2 CNJ</h3>
       <canvas id="chartMeta2"></canvas>
     </div>
-  </div>
-  <script>
+  </div><script>
+// ══ HISTÓRICO PRINCIPAL ═══════════════════════════════════════
+var datesMain = ["20/02","21/02","23/02","26/02","02/03","04/03","06/03","10/03","11/03","12/03","13/03","16/03","17/03","19/03","20/03","24/03","25/03","26/03","31/03","08/04","22/04","23/04","24/04","28/04","29/04","30/04","05/05", '07/05', '08/05', '12/05', '13/05', '20/05', '26/05', '28/05', '01/06'];
+var histJT    = [1748, 1754, 1697, 1753, 1793, 1775, 1744, 1766, 1786, 1756, 1728, 1709, 1696, 1656, 1597, 1507, 1444, 1450, 1470, 1462, 1461, 1462, 1419, 1364, 1502, 1496, 1536, 1539, 1575, 1445, 1358, 1367, 1347, 1370, 1359];
+var histJS    = [2252, 2238, 2185, 2177, 2347, 2265, 2209, 2108, 2081, 2067, 2039, 2009, 1997, 1997, 1902, 1868, 1878, 1832, 1914, 1523, 1438, 1384, 1311, 1194, 1467, 1423, 1352, 1286, 1270, 1246, 1157, 1134, 1067, 1007, 958];
+var histTotal = [4000, 3992, 3882, 3930, 4140, 4040, 3953, 3874, 3867, 3823, 3767, 3718, 3693, 3653, 3499, 3375, 3322, 3282, 3384, 2985, 2899, 2846, 2730, 2558, 2969, 2919, 2888, 2825, 2845, 2691, 2515, 2501, 2414, 2377, 2317];
+
+// ══ NOVOS INDICADORES (a partir de 11/03) ═════════════════════
+var datesNew     = ["11/03","12/03","13/03","16/03","17/03","19/03","20/03","24/03","25/03","26/03","31/03","08/04","22/04","23/04","24/04","28/04","29/04","30/04","05/05", '08/05', '12/05', '13/05', '20/05', '26/05', '28/05', '01/06'];
+var hist120JT    = [106, 116, 111, 132, 342, 351, 349, 302, 291, 273, 244, 233, 255, 229, 203, 150, 129, 113, 91, 43, 66, 55, 28, 16, 8, 8];
+var hist120JS    = [252, 249, 229, 233, 420, 422, 370, 346, 355, 304, 298, 310, 274, 254, 251, 242, 242, 237, 213, 197, 196, 193, 201, 169, 67, 10];
+var hist150JT    = [43,  44,  39,  40,  118, 109, 115, 124, 112, 91,  55,  52,  94,  97,  82,  94,  78,  65,  68, 31, 34, 32, 7, 5, 5, 5];
+var hist150JS    = [119, 113, 110, 115, 189, 185, 183, 189, 192, 192, 189, 192, 186, 189, 186, 190, 190, 185, 185, 173, 177, 173, 177, 132, 28, 2];
+var histTramitJT = [8255, 8254, 8249, 8248, 8244, 8233, 8211, 8152, 8148, 8103, 8033, 7986, 7995, 7970, 7990, 7981, 7901, 7893, 7882, 7886, 7848, 7861, 7887, 7819, 7787, 7690];
+var histTramitJS = [8939, 8918, 8921, 8917, 8903, 8877, 8861, 8809, 8813, 8751, 8703, 8642, 8619, 8609, 8623, 8604, 8503, 8470, 8395, 8407, 8388, 8402, 8394, 8272, 8235, 8116];
+
+// ══ BREAKDOWN JT – 26/03/2026 ════════════════════════════════
+var jtClasseLabels = ["Execução Fiscal","Execução Tít. Extrajudicial","Embargos Exec. Fiscal","Cumprimento Sentença","JEF Execução","Outros"];
+var jtClasseData   = [56, 37, 3, 2, 1, 1];
+var jtDiasLabels   = ["0-30 dias","31-60 dias","61-90 dias","91-180 dias","181+ dias"];
+var jtDiasData     = [42, 21, 13, 23, 1];
+
+// ══ BREAKDOWN JS – 26/03/2026 ════════════════════════════════
+var jsClasseLabels = ["Execução Fiscal","Execução Tít. Extrajudicial","Procedimento Comun","Embargos à Execução","Cumprimento Sentença","Outros"];
+var jsClasseData   = [63, 30, 2, 2, 1, 2];
+var jsDiasLabels   = ["0-30 dias","31-60 dias","61-90 dias","91-180 dias","181+ dias"];
+var jsDiasData     = [42, 28, 9, 19, 2];
+
+// ══ TOTAL CONCLUSOS GERAL ════════════════════════════════════
+var totalMaxVal = Math.max.apply(null, histTotal);
+var totalMaxIdx = histTotal.indexOf(totalMaxVal);
+document.getElementById('totalMaxVal').textContent = (totalMaxVal/1000).toFixed(3).replace('.',',');
+document.getElementById('totalMaxDate').textContent = datesMain[totalMaxIdx];
+
+// ══ TOTAL TRAMITAÇÃO AJUSTADA ════════════════════════════════
+var histTramitTotal = [];
+for (var i = 0; i < histTramitJT.length; i++) {
+  histTramitTotal.push(histTramitJT[i] + histTramitJS[i]);
+}
+var tramitMaxVal = Math.max.apply(null, histTramitTotal);
+var tramitMinVal = Math.min.apply(null, histTramitTotal);
+var tramitMaxIdx = histTramitTotal.indexOf(tramitMaxVal);
+var tramitMinIdx = histTramitTotal.indexOf(tramitMinVal);
+document.getElementById('tramitTotal').textContent = (histTramitTotal[histTramitTotal.length-1]/1000).toFixed(3).replace('.',',');
+document.getElementById('tramitMax').textContent = (tramitMaxVal/1000).toFixed(3).replace('.',',');
+document.getElementById('tramitMaxDate').textContent = datesNew[tramitMaxIdx];
+document.getElementById('tramitMin').textContent = (tramitMinVal/1000).toFixed(3).replace('.',',');
+document.getElementById('tramitMinDate').textContent = datesNew[tramitMinIdx];
+
+// ══ PALETAS ══════════════════════════════════════════════════
+var palBlue = ['#1d4ed8','#2563eb','#3b82f6','#60a5fa','#93c5fd','#bfdbfe','#dbeafe','#eff6ff','#1e40af','#1e3a8a'];
+var palRed  = ['#991b1b','#b91c1c','#dc2626','#ef4444','#f87171','#fca5a5','#fecaca','#fee2e2','#7f1d1d'];
+var palDias = ['#22c55e','#84cc16','#eab308','#f97316','#ef4444'];
+var lo  = { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'top'}}, scales:{y:{beginAtZero:false}} };
+var loz = { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'top'}}, scales:{y:{beginAtZero:true}} };
+
+new Chart(document.getElementById('chartHistorico'), {
+  type:'line', data:{ labels:datesMain, datasets:[
+    {label:'JT (Titular)',    data:histJT, borderColor:'#1d4ed8', backgroundColor:'rgba(29,78,216,0.07)',  tension:0.3, pointRadius:4, fill:true},
+    {label:'JS (Substituto)', data:histJS, borderColor:'#991b1b', backgroundColor:'rgba(153,27,27,0.07)', tension:0.3, pointRadius:4, fill:true}
+  ]}, options:lo
+});
+new Chart(document.getElementById('chartTotal'), {
+  type:'line', data:{ labels:datesMain, datasets:[
+    {label:'Total Geral', data:histTotal, borderColor:'#334155', backgroundColor:'rgba(51,65,85,0.07)', tension:0.3, pointRadius:4, fill:true}
+  ]}, options:lo
+});
+new Chart(document.getElementById('chart120dias'), {
+  type:'line', data:{ labels:datesNew, datasets:[
+    {label:'JT >120d', data:hist120JT, borderColor:'#1d4ed8', backgroundColor:'rgba(29,78,216,0.08)',  tension:0.3, pointRadius:5, fill:true},
+    {label:'JS >120d', data:hist120JS, borderColor:'#991b1b', backgroundColor:'rgba(153,27,27,0.08)',   tension:0.3, pointRadius:5, fill:true}
+  ]}, options:loz
+});
+new Chart(document.getElementById('chart150dias'), {
+  type:'line', data:{ labels:datesNew, datasets:[
+    {label:'JT >150d', data:hist150JT, borderColor:'#1d4ed8', backgroundColor:'rgba(29,78,216,0.08)', tension:0.3, pointRadius:5, fill:true},
+    {label:'JS >150d', data:hist150JS, borderColor:'#991b1b', backgroundColor:'rgba(153,27,27,0.08)', tension:0.3, pointRadius:5, fill:true}
+  ]}, options:loz
+});
+new Chart(document.getElementById('chartTramit'), {
+  type:'line', data:{ labels:datesNew, datasets:[
+    {label:'Tramit. Ajust. JT', data:histTramitJT, borderColor:'#1d4ed8', backgroundColor:'rgba(29,78,216,0.08)',   tension:0.3, pointRadius:5, fill:true},
+    {label:'Tramit. Ajust. JS', data:histTramitJS, borderColor:'#991b1b', backgroundColor:'rgba(153,27,27,0.08)', tension:0.3, pointRadius:5, fill:true}
+  ]}, options:lo
+});
+new Chart(document.getElementById('chartTramitTotal'), {
+  type:'line', data:{ labels:datesNew, datasets:[
+    {label:'Total (JT + JS)', data:histTramitTotal, borderColor:'#059669', backgroundColor:'rgba(5,150,105,0.1)', tension:0.3, pointRadius:5, fill:true}
+  ]}, options:lo
+});
+
+  // META 2 CNJ
   var datesMeta2 = ['19/05', '01/06'];
   var meta2ant   = [50, 50];
   var meta2a     = [40.13, 47.42];
   var meta2b     = [72.73, 75];
   new Chart(document.getElementById('chartMeta2'), {
     type: 'line',
-    data: {
-      labels: datesMeta2,
-      datasets: [
-        { label: 'Submeta 2 (+antigos)', data: meta2ant, borderColor: '#1a3a5c', backgroundColor: 'rgba(26,58,92,0.1)', tension: 0.3, pointRadius: 5, borderWidth: 2 },
-        { label: 'Submeta 2a (dist. até 2022)', data: meta2a, borderColor: '#059669', backgroundColor: 'rgba(5,150,105,0.1)', tension: 0.3, pointRadius: 5, borderWidth: 2 },
-        { label: 'Submeta 2b (JEF até 2023)', data: meta2b, borderColor: '#d97706', backgroundColor: 'rgba(217,119,6,0.1)', tension: 0.3, pointRadius: 5, borderWidth: 2 }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: { legend: { position: 'top' } },
-      scales: { y: { min: 0, max: 100, ticks: { callback: function(v){ return v+'%'; } } } }
-    }
+    data: { labels: datesMeta2, datasets: [
+      { label: 'Submeta 2 (+antigos)', data: meta2ant, borderColor: '#1a3a5c', backgroundColor: 'rgba(26,58,92,0.1)', tension: 0.3, pointRadius: 5, borderWidth: 2 },
+      { label: 'Submeta 2a (dist. até 2022)', data: meta2a, borderColor: '#059669', backgroundColor: 'rgba(5,150,105,0.1)', tension: 0.3, pointRadius: 5, borderWidth: 2 },
+      { label: 'Submeta 2b (JEF até 2023)', data: meta2b, borderColor: '#d97706', backgroundColor: 'rgba(217,119,6,0.1)', tension: 0.3, pointRadius: 5, borderWidth: 2 }
+    ]},
+    options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { min: 0, max: 100, ticks: { callback: function(v){ return v+'%'; } } } } }
   });
-  </script>
-
-</div>
+</script>
 </body>
 </html>
