@@ -22,6 +22,10 @@
   .kpi-card.c120js { border-left-color: #991b1b; }
   .kpi-card.c150jt { border-left-color: #1d4ed8; }
   .kpi-card.c150js { border-left-color: #991b1b; }
+  .kpi-card.c90jt  { border-left-color: #1d4ed8; }
+  .kpi-card.c90js  { border-left-color: #991b1b; }
+  .kpi-card.c60jt  { border-left-color: #1d4ed8; }
+  .kpi-card.c60js  { border-left-color: #991b1b; }
   .kpi-card.tajt   { border-left-color: #1d4ed8; }
   .kpi-card.tajs   { border-left-color: #991b1b; }
   .kpi-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: #6b7280; margin-bottom: 4px; }
@@ -86,7 +90,7 @@
   </div>
 
   <!-- SEÇÃO 2: PROCESSOS ANTIGOS -->
-  <div class="section-title">Processos Antigos – Conclusos há mais de 120 e 150 dias</div>
+  <div class="section-title">Processos Antigos – Conclusos há mais de 60, 90 e 120 dias</div>
   <div class="kpi-grid">
     <div class="kpi-card c120jt">
       <div class="kpi-label">Conclusos &gt;120 dias – JT</div>
@@ -98,25 +102,43 @@
       <div class="kpi-value">10</div>
       <div class="kpi-delta">Anterior: 67 &nbsp;|&nbsp; <span class="down">▼ 57</span></div>
     </div>
-    <div class="kpi-card c150jt">
-      <div class="kpi-label">Conclusos &gt;150 dias – JT</div>
-      <div class="kpi-value">5</div>
-      <div class="kpi-delta">Anterior: 65 &nbsp;|&nbsp; = sem variação</div>
+    <div class="kpi-card c90jt">
+      <div class="kpi-label">Conclusos &gt;90 dias – JT</div>
+      <div class="kpi-value">–</div>
+      <div class="kpi-delta">–</div>
     </div>
-    <div class="kpi-card c150js">
-      <div class="kpi-label">Conclusos &gt;150 dias – JS</div>
-      <div class="kpi-value">2</div>
-      <div class="kpi-delta">Anterior: 28 &nbsp;|&nbsp; <span class="down">▼ 26</span></div>
+    <div class="kpi-card c90js">
+      <div class="kpi-label">Conclusos &gt;90 dias – JS</div>
+      <div class="kpi-value">–</div>
+      <div class="kpi-delta">–</div>
+    </div>
+    <div class="kpi-card c60jt">
+      <div class="kpi-label">Conclusos &gt;60 dias – JT</div>
+      <div class="kpi-value">–</div>
+      <div class="kpi-delta">–</div>
+    </div>
+    <div class="kpi-card c60js">
+      <div class="kpi-label">Conclusos &gt;60 dias – JS</div>
+      <div class="kpi-value">–</div>
+      <div class="kpi-delta">–</div>
     </div>
   </div>
   <div class="chart-row" style="margin-top:14px;">
-    <div class="chart-card">
-      <h3>📈 Histórico – Conclusos &gt;120 dias (JT e JS)</h3>
-      <div class="chart-wrap-xs"><canvas id="chart120dias"></canvas></div>
+    <div class="chart-card" style="flex:1 1 280px;">
+      <h3>📊 Histórico &gt;120 dias</h3>
+      <div class="chart-wrap"><canvas id="chart120dias"></canvas></div>
     </div>
-    <div class="chart-card">
-      <h3>📈 Histórico – Conclusos &gt;150 dias (JT e JS)</h3>
-      <div class="chart-wrap-xs"><canvas id="chart150dias"></canvas></div>
+    <div class="chart-card" style="flex:1 1 280px;">
+      <h3>📊 Histórico &gt;150 dias (arquivo)</h3>
+      <div class="chart-wrap"><canvas id="chart150dias"></canvas></div>
+    </div>
+    <div class="chart-card" style="flex:1 1 280px;">
+      <h3>📊 Histórico &gt;90 dias</h3>
+      <div class="chart-wrap"><canvas id="chart90dias"></canvas></div>
+    </div>
+    <div class="chart-card" style="flex:1 1 280px;">
+      <h3>📊 Histórico &gt;60 dias</h3>
+      <div class="chart-wrap"><canvas id="chart60dias"></canvas></div>
     </div>
   </div>
 
@@ -203,6 +225,11 @@ var hist120JT    = [106, 116, 111, 132, 342, 351, 349, 302, 291, 273, 244, 233, 
 var hist120JS    = [252, 249, 229, 233, 420, 422, 370, 346, 355, 304, 298, 310, 274, 254, 251, 242, 242, 237, 213, 197, 196, 193, 201, 169, 67, 10];
 var hist150JT    = [43,  44,  39,  40,  118, 109, 115, 124, 112, 91,  55,  52,  94,  97,  82,  94,  78,  65,  68, 31, 34, 32, 7, 5, 5, 5];
 var hist150JS    = [119, 113, 110, 115, 189, 185, 183, 189, 192, 192, 189, 192, 186, 189, 186, 190, 190, 185, 185, 173, 177, 173, 177, 132, 28, 2];
+var dates90     = [/* -- */];
+var hist90JT    = [/* -- */];
+var hist90JS    = [/* -- */];
+var hist60JT    = [/* -- */];
+var hist60JS    = [/* -- */];
 var histTramitJT = [8255, 8254, 8249, 8248, 8244, 8233, 8211, 8152, 8148, 8103, 8033, 7986, 7995, 7970, 7990, 7981, 7901, 7893, 7882, 7886, 7848, 7861, 7887, 7819, 7787, 7690];
 var histTramitJS = [8939, 8918, 8921, 8917, 8903, 8877, 8861, 8809, 8813, 8751, 8703, 8642, 8619, 8609, 8623, 8604, 8503, 8470, 8395, 8407, 8388, 8402, 8394, 8272, 8235, 8116];
 
@@ -294,6 +321,25 @@ new Chart(document.getElementById('chartTramitTotal'), {
       { label: 'Submeta 2b (JEF até 2023)', data: meta2b, borderColor: '#d97706', backgroundColor: 'rgba(217,119,6,0.1)', tension: 0.3, pointRadius: 5, borderWidth: 2 }
     ]},
     options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { min: 0, max: 100, ticks: { callback: function(v){ return v+'%'; } } } } }
+  });
+
+  // GRÁFICO >90 dias
+  new Chart(document.getElementById('chart90dias'), {
+    type: 'line',
+    data: { labels: dates90, datasets: [
+      { label: '>90d JT', data: hist90JT, borderColor: '#1d4ed8', backgroundColor: 'rgba(29,78,216,0.08)', tension: 0.3, pointRadius: 4, borderWidth: 2 },
+      { label: '>90d JS', data: hist90JS, borderColor: '#991b1b', backgroundColor: 'rgba(153,27,27,0.08)', tension: 0.3, pointRadius: 4, borderWidth: 2 }
+    ]},
+    options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+  });
+  // GRÁFICO >60 dias
+  new Chart(document.getElementById('chart60dias'), {
+    type: 'line',
+    data: { labels: dates90, datasets: [
+      { label: '>60d JT', data: hist60JT, borderColor: '#1d4ed8', backgroundColor: 'rgba(29,78,216,0.08)', tension: 0.3, pointRadius: 4, borderWidth: 2 },
+      { label: '>60d JS', data: hist60JS, borderColor: '#991b1b', backgroundColor: 'rgba(153,27,27,0.08)', tension: 0.3, pointRadius: 4, borderWidth: 2 }
+    ]},
+    options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
   });
 </script>
 </body>
