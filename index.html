@@ -332,7 +332,7 @@ new Chart(document.getElementById('chartTramitTotal'), {
       { label: '>90d JT', data: hist90JT, borderColor: '#1d4ed8', backgroundColor: 'rgba(29,78,216,0.08)', tension: 0.3, pointRadius: 4, borderWidth: 2 },
       { label: '>90d JS', data: hist90JS, borderColor: '#991b1b', backgroundColor: 'rgba(153,27,27,0.08)', tension: 0.3, pointRadius: 4, borderWidth: 2 }
     ]},
-    options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
   });
   // GRÁFICO >60 dias
   new Chart(document.getElementById('chart60dias'), {
@@ -341,7 +341,7 @@ new Chart(document.getElementById('chartTramitTotal'), {
       { label: '>60d JT', data: hist60JT, borderColor: '#1d4ed8', backgroundColor: 'rgba(29,78,216,0.08)', tension: 0.3, pointRadius: 4, borderWidth: 2 },
       { label: '>60d JS', data: hist60JS, borderColor: '#991b1b', backgroundColor: 'rgba(153,27,27,0.08)', tension: 0.3, pointRadius: 4, borderWidth: 2 }
     ]},
-    options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
   });
 </script>
 </body>
