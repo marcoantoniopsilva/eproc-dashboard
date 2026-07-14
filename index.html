@@ -26,6 +26,7 @@
   .kpi-card.c90js  { border-left-color: #991b1b; }
   .kpi-card.c60jt  { border-left-color: #1d4ed8; }
   .kpi-card.c60js  { border-left-color: #991b1b; }
+  .kpi-card.c20js  { border-left-color: #991b1b; }
   .kpi-card.tajt   { border-left-color: #1d4ed8; }
   .kpi-card.tajs   { border-left-color: #991b1b; }
   .kpi-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: #6b7280; margin-bottom: 4px; }
@@ -122,6 +123,11 @@
       <div class="kpi-value">0</div>
       <div class="kpi-delta">Anterior: 0 &nbsp;|&nbsp; = sem variação</div>
     </div>
+    <div class="kpi-card c20js">
+      <div class="kpi-label">Conclusos &gt;20d JS</div>
+      <div class="kpi-value">516</div>
+      <div class="kpi-delta">— primeiro registro</div>
+    </div>
   </div>
   <div class="chart-row" style="margin-top:14px;">
     <div class="chart-card" style="flex:1 1 280px;">
@@ -142,6 +148,10 @@
       <h3>📊 Histórico &gt;60 dias</h3>
       <div class="chart-wrap"><canvas id="chart60dias"></canvas></div>
     </div>
+  <div class="chart-card" style="flex: 1 1 300px;">
+    <h3>📈 Histórico &gt;20d JS</h3>
+    <div class="chart-wrap-xs"><canvas id="chart20dias"></canvas></div>
+  </div>
   </div>
 
   <!-- SEÇÃO 3: TRAMITAÇÃO AJUSTADA -->
@@ -275,7 +285,8 @@ var palDias = ['#22c55e','#84cc16','#eab308','#f97316','#ef4444'];
 var lo  = { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'top'}}, scales:{y:{beginAtZero:false}} };
 var loz = { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'top'}}, scales:{y:{beginAtZero:true}} };
 
-new Chart(document.getElementById('chartHistorico'), {
+var dates20=['09/07'];var hist20JS=[516];
+  new Chart(document.getElementById('chartHistorico'), {
   type:'line', data:{ labels:datesMain, datasets:[
     {label:'JT (Titular)',    data:histJT, borderColor:'#1d4ed8', backgroundColor:'rgba(29,78,216,0.07)',  tension:0.3, pointRadius:4, fill:true},
     {label:'JS (Substituto)', data:histJS, borderColor:'#991b1b', backgroundColor:'rgba(153,27,27,0.07)', tension:0.3, pointRadius:4, fill:true}
@@ -343,6 +354,7 @@ new Chart(document.getElementById('chartTramitTotal'), {
     ]},
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
   });
+  new Chart(document.getElementById('chart20dias'),{type:'line',data:{labels:dates20,datasets:[{label:'>20d JS',data:hist20JS,borderColor:'#991b1b',backgroundColor:'rgba(153,27,27,0.08)',tension:0.3,pointRadius:4,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true}}}});
 </script>
 </body>
 </html>
