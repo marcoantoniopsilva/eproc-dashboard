@@ -148,8 +148,8 @@
       <h3>📊 Histórico &gt;60 dias</h3>
       <div class="chart-wrap"><canvas id="chart60dias"></canvas></div>
     </div>
-  <div class="chart-card" style="flex: 1 1 300px;"><h3>📈 Histórico &gt;20d JT</h3><div class="chart-wrap-xs"><canvas id="chart20jt"></canvas></div></div> <div class="chart-card" style="flex: 1 1 300px;">
-    <h3>📈 Histórico &gt;20d JS</h3>
+  <div class="chart-card" style="flex: 1 1 300px;">
+    <h3>📈 Histórico &gt;20 dias – JT e JS</h3>
     <div class="chart-wrap-xs"><canvas id="chart20dias"></canvas></div>
   </div>
   </div>
@@ -354,8 +354,7 @@ new Chart(document.getElementById('chartTramitTotal'), {
     ]},
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
   });
-  new Chart(document.getElementById('chart20dias'),{type:'line',data:{labels:dates20,datasets:[{label:'>20d JS',data:hist20JS,borderColor:'#991b1b',backgroundColor:'rgba(153,27,27,0.08)',tension:0.3,pointRadius:4,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true}}}});
-new Chart(document.getElementById('chart20jt'),{type:'line',data:{labels:dates20,datasets:[{label:'>20d JT',data:hist20JT,borderColor:'#1d4ed8',backgroundColor:'rgba(29,78,216,0.08)',tension:0.3,pointRadius:4,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true}}}});
+  new Chart(document.getElementById('chart20dias'),{type:'line',data:{labels:dates20,datasets:[{label:'>20d JT',data:hist20JT,borderColor:'#1d4ed8',backgroundColor:'rgba(29,78,216,0.08)',tension:0.3,pointRadius:4,borderWidth:2,spanGaps:true},{label:'>20d JS',data:hist20JS,borderColor:'#991b1b',backgroundColor:'rgba(153,27,27,0.08)',tension:0.3,pointRadius:4,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true}}}});
 </script>
 </body>
 </html>
